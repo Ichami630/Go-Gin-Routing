@@ -4,6 +4,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// middleware
+func AuthMiddleware(c *gin.Context) {
+	apiKey := c.GetHeader("Authorization")
+	if apiKey != "secret123" {
+		c.JSON(401, gin.H{"error": "unathorised"})
+		c.Abort() //stop further execution
+		return
+	}
+
+	c.Next()
+}
+
 func main() {
 	server := gin.Default() //create a Gin router with default middleware(logging and recovery)
 	server.GET("/test", func(c *gin.Context) {
@@ -48,6 +60,23 @@ func main() {
 			c.String(200, "list of products")
 		})
 	} //endpoint localhost:8080/api/users
+
+	//catch all route (404 not found)
+	server.NoRoute(func(c *gin.Context) {
+		c.String(404, "404 this route can not be resolved on the server")
+	})
+
+	//middlewares
+	//acts as an intermediary btn 2 applications,services,systems, facilitating their communication/interaction
+
+	//it is useful in logging,authorisation,requestvalidation,rate limiting
+
+	//apply authentication middleware to protected route
+	protected := server.Group("/admin")
+	protected.Use(AuthMiddleware)
+	protected.GET("/dashboard", func(c *gin.Context) {
+		c.String(200, "welcome to admin dashboard")
+	})
 
 	server.Run(":8080") //listening on port 8080
 }
