@@ -21,5 +21,12 @@ func main() {
 		c.String(200, "User ID: %v", id)
 	})
 
+	//routing with query params
+	server.GET("/search", func(c *gin.Context) {
+		query := c.Query("q") //extract the query param
+		c.String(200, "Search result for %v", query)
+
+	})
+
 	server.Run(":8080") //listening on port 8080
 }
