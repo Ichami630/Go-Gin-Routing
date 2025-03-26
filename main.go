@@ -38,5 +38,16 @@ func main() {
 		})
 	})
 
+	//grouping routes
+	api := server.Group("/api")
+	{
+		api.GET("/users", func(c *gin.Context) {
+			c.String(200, "list of users")
+		})
+		api.GET("/products", func(c *gin.Context) {
+			c.String(200, "list of products")
+		})
+	} //endpoint localhost:8080/api/users
+
 	server.Run(":8080") //listening on port 8080
 }
