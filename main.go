@@ -23,9 +23,9 @@ func main() {
 			"message": "Ok!!",
 		})
 	})
-	server.GET("/", func(c *gin.Context) {
-		c.String(200, "Welcome to Gin")
-	})
+	// server.GET("/", func(c *gin.Context) {
+	// 	c.String(200, "Welcome to Gin")
+	// })
 
 	//dynamic route
 	server.GET("/user/:id", func(c *gin.Context) {
@@ -76,6 +76,15 @@ func main() {
 	protected.Use(AuthMiddleware)
 	protected.GET("/dashboard", func(c *gin.Context) {
 		c.String(200, "welcome to admin dashboard")
+	})
+
+	//serving html file
+	server.Static("/assets", "./static/assets") //serve static files like css,js,images
+
+	server.LoadHTMLGlob("static/*.html") //load html files from the static folder
+
+	server.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
 	})
 
 	server.Run(":8080") //listening on port 8080
