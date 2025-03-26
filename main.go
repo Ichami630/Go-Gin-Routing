@@ -28,5 +28,15 @@ func main() {
 
 	})
 
+	//post request handling
+	server.POST("/submit", func(c *gin.Context) {
+		name := c.PostForm("name")
+		email := c.PostForm("email")
+		c.JSON(200, gin.H{
+			"name":  name,
+			"email": email,
+		})
+	})
+
 	server.Run(":8080") //listening on port 8080
 }
