@@ -87,5 +87,12 @@ func main() {
 		c.HTML(200, "index.html", nil)
 	})
 
+	//template with dynamic data(pass data to html)
+	server.GET("/welcome", func(c *gin.Context) {
+		c.HTML(200, "welcome.html", gin.H{
+			"Name": "Ichami",
+		})
+	})
+
 	server.Run(":8080") //listening on port 8080
 }
