@@ -89,8 +89,10 @@ func main() {
 
 	//template with dynamic data(pass data to html)
 	server.GET("/welcome", func(c *gin.Context) {
+		users := []string{"ichami", "john", "doe"}
 		c.HTML(200, "welcome.html", gin.H{
-			"Name": "Ichami",
+			"Name":  "Ichami",
+			"users": users,
 		})
 	})
 
